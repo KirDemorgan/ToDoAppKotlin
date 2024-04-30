@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val addButton: Button = findViewById(R.id.addButton)
-        val delButton: Button = findViewById(R.id.deleteButton)
         val userInputData: EditText = findViewById(R.id.userInputData)
         val taskList = findViewById<ListView>(R.id.listView)
 
@@ -24,7 +24,14 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, todos)
         taskList.adapter = adapter
+        
+        taskList.setOnItemClickListener { parent, view, position, id ->
+            val textToDel = taskList.getItemAtPosition(position).toString()
+            adapter.remove(textToDel)
 
+            Toast.makeText(this, "Успешно удалено", Toast.LENGTH_SHORT).show()
+        }
+        
         addButton.setOnClickListener {
             val text = userInputData.text.toString().trim()
             if (text != "") {
@@ -32,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
 
         }
     }
